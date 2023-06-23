@@ -8,6 +8,7 @@ use App\Http\Controllers\MunicipalityController;
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PostController;
+use PhpParser\Node\Expr\PostInc;
 
 Auth::routes();
 
@@ -19,6 +20,7 @@ Route::middleware('auth')->group(function() {
 
     Route::get('/posts', [PostController::class, 'index']);
     Route::get('/posts/{id}/edit', [PostController::class, 'edit']);
+    Route::patch('/posts/{id}', [PostController::class, 'update']);
 
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');

@@ -1,18 +1,18 @@
 <template>
 
     <Head>
-        <title>Users</title>
+        <title>Municipal List</title>
     </Head>
 
     <div class="row gap-10 masonry pos-r">
         <div class="peers fxw-nw jc-sb ai-c">
-            <h3>Users</h3>
+            <h3>Municipal List</h3>
             <div class="peers">
                 <div class="peer mR-10">
                     <input v-model="search" type="text" class="form-control form-control-sm" placeholder="Search...">
                 </div>
                 <div class="peer" >
-                    <Link class="btn btn-primary btn-sm" href="/users/create">Add User</Link>
+                    <Link class="btn btn-primary btn-sm" href="/posts/create">Add Municipal</Link>
                     <button class="btn btn-primary btn-sm mL-2 text-white" @click="showFilter()">Filter</button>
                 </div>
             </div>
@@ -103,9 +103,21 @@
 
 <script setup>
 import Pagination from "@/Shared/Pagination";
+import { Inertia } from "@inertiajs/inertia";
+import { ref, watch } from "vue";
 
 defineProps ({
     municipalities : Object,
+
+});
+
+let search = ref('');
+
+watch (search, value =>{
+    Inertia.get('/posts', {search:value},{
+        preserveState : true,
+    });
+
 });
 
 function deleteUser(id) {

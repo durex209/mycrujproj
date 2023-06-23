@@ -15,28 +15,26 @@
         <div class="col-md-8">
             <form @submit.prevent="submit()">
                 <!-- 'id', 'citymunDesc', 'regDesc', 'provCode', 'citymunCode'-->
-                <label for="">Names</label>
-                <input type="text" v-model="form.regDesc" class="form-control" autocomplete="chrome-off">
-                <div class="fs-6 c-red-500" v-if="form.errors.regDesc">{{ form.errors.regDesc }}</div>
+                <label for="">City</label>
+                <!--
+                    <input type="text" v-model="form.citymunDesc" class="form-control" autocomplete="chrome-off">
+                -->
+                <text-input v-model="form.citymunDesc" :error="form.errors.citymunDesc" label="City" type="citymunDesc" isFocused="focus"/>
 
-                <label for="">Municipality</label>
-                <Select2 v-model="form.citymunDesc" :options="municipals" id="municipals" @select="loadBarangays" />
                 <div class="fs-6 c-red-500" v-if="form.errors.citymunDesc">{{ form.errors.citymunDesc }}</div>
 
+                <label for="">Reg Desc</label>
+                <input type="text" v-model="form.regDesc" class="form-control" autocomplete="chrome-off">
+                <div class="fs-6 c-red-500" v-if="form.errors.regDesc">{{ form.errors.regDesc }}</div>
+                
+
                 <label for="">Provice Code</label>
-                <Select2 v-model="form.provCode" :options="barangays" />
+                <input type="text" v-model="form.provCode" class="form-control" autocomplete="chrome-off">
                 <div class="fs-6 c-red-500" v-if="form.errors.provCode">{{ form.errors.provCode }}</div>
 
-                <label for="">Permission</label>
-                <select class="form-select" v-model="form.permission">
-                    <option value="Admin">Admin</option>
-                    <option value="Basic">Basic</option>
-                </select>
-                <div class="fs-6 c-red-500" v-if="form.errors.brgyCode">{{ form.errors.brgyCode }}</div>
-
-                <text-input v-model="form.email" :error="form.errors.email" label="Email" type="email" isFocused="focus"/>
-                <text-input v-model="form.password" label="Password" type="password"/>
-
+                <label for="">City Mun Code</label>
+                <input type="text" v-model="form.citymunCode" class="form-control" autocomplete="chrome-off">
+                <div class="fs-6 c-red-500" v-if="form.errors.citymunCode">{{ form.errors.citymunCode }}</div>
 
                 <input type="hidden" v-model="form.id" class="form-control" autocomplete="chrome-off">
                 <button type="button" class="btn btn-primary mt-3" @click="submit()" :disabled="form.processing">Save
@@ -53,8 +51,6 @@
 <script>
 import { useForm } from "@inertiajs/inertia-vue3";
 import TextInput from '@/Shared/TextInput'
-
-
 
 export default {
     components: {
@@ -80,8 +76,8 @@ export default {
             loading:false,
         };
     },
-    mounted() {
 
+    mounted() {
 
         if (this.editData !== undefined) {
             this.loading = true
@@ -101,13 +97,11 @@ export default {
 
     methods: {
         submit() {
-
             if (this.editData !== undefined) {
-                this.form.patch("/users/" + this.form.id, this.form);
+                this.form.patch("/posts/" + this.form.id, this.form);
             } else {
-                this.form.post("/users", this.form);
+                this.form.post("/posts", this.form);
             }
-
         },
 
         loadMunicipals() { 
