@@ -1,8 +1,8 @@
 <template>
     <div class="row gap-20 masonry pos-r">
         <div class="peers fxw-nw jc-sb ai-c">
-            <h3>{{ pageTitle }} users</h3>
-            <Link href="/users">
+            <h3>{{ pageTitle }} Posts</h3>
+            <Link href="/posts">
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-lg"
                 viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -49,29 +49,25 @@
 
   
 </template>
-<script setup>
-    import { useForm } from "@inertiajs/inertia-vue3";
-    import TextInput from '@/Shared/TextInput'
-    
-   const props = defineProps ({
-        editData : Object,
-    
-// export default {
-//     components: {
-//         TextInput,
-//     },
-//     props: {
-//         editData: Object,
-//     },
-    });
+
+<script>
+import { useForm } from "@inertiajs/inertia-vue3";
+import TextInput from '@/Shared/TextInput'
 
 
-   
-    function data() {
+
+export default {
+    components: {
+        TextInput,
+    },
+    props: {
+        editData: Object,
+    },
+    data() {
         return {
             form: useForm({
                 citymunDesc: "",
-                regDesc:"",
+                regDesc: "",
                 provCode:"",
                 citymunCode:"",
                 id: null
@@ -83,28 +79,28 @@
             pageTitle: "",
             loading:false,
         };
-    }
+    },
+    mounted() {
 
 
-    function mounted() {
         if (this.editData !== undefined) {
             this.loading = true
-            //this.pageTitle = "Edit"
-            this.form.id = this.editData.id
+            this.pageTitle = "Edit"
             this.form.citymunDesc = this.editData.citymunDesc
             this.form.regDesc = this.editData.regDesc
-            this.form.provCode = this.editData.provCode
+            this.form.id = this.editData.id
             this.form.citymunCode = this.editData.citymunCode
+            this.form.provCode = this.editData.provCode
         } else {
             this.pageTitle = "Create"
         }
 
-        //this.loadMunicipals()
-        //this.loadBarangays()
-    }
+        this.loadMunicipals()
+        this.loadBarangays()
+    },
 
-// //     methods: {
-        function submit() {
+    methods: {
+        submit() {
 
             if (this.editData !== undefined) {
                 this.form.patch("/users/" + this.form.id, this.form);
@@ -112,21 +108,21 @@
                 this.form.post("/users", this.form);
             }
 
-        }
+        },
 
-        function loadMunicipals() { 
+        loadMunicipals() { 
             axios.post('/municipalities').then((response) => {
                 this.municipals = response.data
                 
             })
-        }
+        },
 
-        function loadBarangays() {
+        loadBarangays() {
             axios.post('/barangays', {citymunCode:this.form.citymunCode}).then((response) => {
                 this.barangays = response.data
                 this.puroks = []
             })
-        }
-
-
+        },
+    },
+};
 </script>
