@@ -21,6 +21,9 @@ Route::middleware('auth')->group(function() {
     Route::get('/posts', [PostController::class, 'index']);
     Route::get('/posts/{id}/edit', [PostController::class, 'edit']);
     Route::patch('/posts/{id}', [PostController::class, 'update']);
+    //Route::get('/posts/create', [PostController::class, 'create'])->can('create', 'App\Model\User');
+    Route::get('/posts/create', [PostController::class, 'create']);
+    Route::post('/posts', [PostController::class, 'store']);
 
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
